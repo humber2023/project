@@ -1,0 +1,164 @@
+
+Building configuration...
+
+Current configuration : 2109 bytes
+!
+! Last configuration change at 20:21:44 UTC Wed Apr 19 2023 by cisco
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+logging buffered 64000
+!
+aaa new-model
+!
+!
+!
+!
+!
+!
+!
+aaa session-id common
+no ip icmp rate-limit unreachable
+ip cef
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name cisco
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+username cisco password 0 cisco
+!
+!
+ip tcp synwait-time 5
+ip ssh logging events
+ip ssh version 2
+ip ssh pubkey-chain
+  username cisco
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description Loopback
+ ip address 10.0.0.1 255.255.255.0
+!
+interface FastEthernet0/0
+ ip address dhcp
+ ip flow ingress
+ ip flow egress
+ speed auto
+ duplex auto
+!
+interface FastEthernet0/1
+ description Interface to R2
+ ip address 10.1.2.1 255.255.255.252
+ speed auto
+ duplex auto
+!
+interface FastEthernet1/0
+ description Interface to R3
+ ip address 10.1.3.1 255.255.255.252
+ speed auto
+ duplex auto
+!
+interface FastEthernet1/1
+ ip address 2.2.2.2 255.255.255.0
+ ip flow ingress
+ ip flow egress
+ speed auto
+ duplex auto
+!
+interface FastEthernet2/0
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+interface FastEthernet2/1
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+interface FastEthernet3/0
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+interface FastEthernet3/1
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+router ospf 999
+ router-id 10.0.0.1
+ network 10.0.0.0 0.0.0.255 area 0
+ network 10.1.2.0 0.0.0.255 area 0
+ network 10.1.3.0 0.0.0.255 area 0
+ network 192.168.56.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+snmp-server community PYTHON RW
+snmp-server location HUMBER
+snmp-server contact HUMBER
+snmp-server enable traps syslog
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ privilege level 15
+ logging synchronous
+ transport input all
+!
+!
+end
