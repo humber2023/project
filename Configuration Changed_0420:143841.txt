@@ -1,0 +1,7 @@
+configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#interface FastEthernet1/1
+R1(config-if)#ip address 2.2.2.2 255.0.0.0
+R1(config-if)#no shutdown
+R1(config-if)#end
+R1#
